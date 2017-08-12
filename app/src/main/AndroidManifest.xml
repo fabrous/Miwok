@@ -35,7 +35,7 @@
         />
         <activity
             android:name=".PhrasesActivity"
-            android:label="@string/category_phrases"
+            android:label="Phrases"
         />
         <activity
             android:name=".ColorsActivity"
@@ -43,8 +43,8 @@
         />
         <activity
             android:name=".FamilyActivity"
-            android:label="@string/category_family">
-        </activity>
+            android:label="@string/category_family"
+        />
     </application>
 
 </manifest>
