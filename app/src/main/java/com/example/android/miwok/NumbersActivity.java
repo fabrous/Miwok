@@ -16,6 +16,7 @@ public class NumbersActivity extends AppCompatActivity {
         Log.v("NumbersActivity", "Word at index 0: " + words[0]);
         Log.v("NumbersActivity", "Word at index 1:" + words[1]);
         Log.v("NumbersActivity", "Word at index 2: " + words[2]);
+        Log.v("NumbersActivity", "Word at index 3: " + words[3]);
 
     }
 }
