@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,8 +22,19 @@ import java.util.List;
 
 public class WordAdapter extends ArrayAdapter<Word> {
 
-    public WordAdapter(@NonNull Context context, @NonNull ArrayList<Word> wordArrayList) {
+    private int mBackgroundColor;
+
+    private void setBackgroundColor(int bgColor) {
+        mBackgroundColor = bgColor;
+    }
+
+    private int getBackgroundColor() {
+        return mBackgroundColor;
+    }
+
+    public WordAdapter(@NonNull Context context, @NonNull ArrayList<Word> wordArrayList, int backgroundColor) {
         super(context, 0, wordArrayList);
+        setBackgroundColor(backgroundColor);
     }
 
     @NonNull
@@ -40,6 +53,10 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.default_text_view);
         defaultTextView.setText(currentWord.getDefaultTranlation());
+
+        LinearLayout linearLayout = (LinearLayout) listItemView.findViewById(R.id.linear_layout_view);
+        int color = ContextCompat.getColor(getContext(), getBackgroundColor());
+        linearLayout.setBackgroundColor(color);
 
         ImageView image = (ImageView) listItemView.findViewById(R.id.image);
 
