@@ -13,6 +13,12 @@ import java.util.ArrayList;
 public class NumbersActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,36 +46,25 @@ public class NumbersActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Word atualWord = numbers.get(position);
+                releaseMediaPlayer();
                 mMediaPlayer = MediaPlayer.create(NumbersActivity.this, atualWord.getAudioResourceId());
                 mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             }
         });
-
-
-
-
-
-/*
-        LinearLayout rootView = (LinearLayout)findViewById(R.id.rootView);
-
-        for (int i=0; i < words.size(); i++) {
-            TextView wordView = new TextView(this);
-            wordView.setText(words.get(i));
-            rootView.addView(wordView);
-        }
-*/
-
-/*
-        Log.v("NumbersActivity", "Word at index 0: " + words.get(0));
-        Log.v("NumbersActivity", "Word at index 1: " + words.get(1));
-        Log.v("NumbersActivity", "Word at index 2: " + words.get(2));
-        Log.v("NumbersActivity", "Word at index 3: " + words.get(3));
-        Log.v("NumbersActivity", "Word at index 4: " + words.get(4));
-        Log.v("NumbersActivity", "Word at index 5: " + words.get(5));
-        Log.v("NumbersActivity", "Word at index 6: " + words.get(6));
-        Log.v("NumbersActivity", "Word at index 7: " + words.get(7));
-        Log.v("NumbersActivity", "Word at index 8: " + words.get(8));
-        Log.v("NumbersActivity", "Word at index 9: " + words.get(9));
-*/
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        releaseMediaPlayer();
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
 }

@@ -13,6 +13,12 @@ import java.util.ArrayList;
 public class FamilyActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,7 @@ public class FamilyActivity extends AppCompatActivity {
         family.add(new Word("grandmother", "ama", R.drawable.family_grandmother, R.raw.family_grandmother));
         family.add(new Word("grandfather", "paapa", R.drawable.family_grandfather, R.raw.family_grandfather));
 
-        WordAdapter itemsAdapter = new WordAdapter(this, family, R.color.category_numbers);
+        WordAdapter itemsAdapter = new WordAdapter(this, family, R.color.category_family);
         ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(itemsAdapter);
 
@@ -39,9 +45,24 @@ public class FamilyActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Word atualWord = family.get(position);
+                releaseMediaPlayer();
                 mMediaPlayer = MediaPlayer.create(FamilyActivity.this, atualWord.getAudioResourceId());
                 mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
             }
         });
     }
+
+    protected void onStop() {
+        super.onStop();
+        releaseMediaPlayer();
+    }
+
+    private void releaseMediaPlayer() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+    }
+
 }
